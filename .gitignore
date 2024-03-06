@@ -1,0 +1,13 @@
+**/node_modules
+**/logs
+**/build
+
+**/.env
+**/.idea
+
+**/tsconfig.tsbuildinfo
+# **/package.json
+# **/tsconfig.json
+**/.eslintcache
+**/.vscode
+*.local
