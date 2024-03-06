@@ -22,9 +22,7 @@ import { LoggerModule } from 'src/logger';
         }),
         LoggerModule,
         UserModule,
-        MongooseModule.forFeature([
-            { name: User.name, schema: UserSchema },
-        ]),
+        MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     ],
     providers: [AuthService, JwtStrategy, Token],
     controllers: [AuthController],

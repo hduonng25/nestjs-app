@@ -2,6 +2,7 @@ import {
     Body,
     Controller,
     Get,
+    Inject,
     Param,
     Post,
     Put,
@@ -13,12 +14,12 @@ import { UserService } from './user.service';
 import { CreateUserBody, FindReqQuery, UpdateUserBody } from './dto';
 import { Result } from 'src/shared/result';
 import { Roles } from 'src/shared/guards';
-import { plainToClass } from '@nestjs/class-transformer';
-import { User } from './schemas';
 
 @Controller('user')
 export class UserController {
-    constructor(private readonly UserService: UserService) {}
+    constructor(
+        @Inject('USER_SERVICE') private readonly UserService: UserService,
+    ) {}
 
     @Get()
     @Roles(['ADMIN']) //==> roles.decorator nhan vao 1 role ["ADMIN"]
@@ -33,12 +34,10 @@ export class UserController {
 
     @Post()
     public async cerated(
-        @Body() body: CreateUserBody,
+        @Body() createUserBody: CreateUserBody,
     ): Promise<Result> {
-        const UserReal = plainToClass(CreateUserBody, User, {
-            excludeExtraneousValues: true,
-        });
-        console.log(UserReal);
+        const body = CreateUserBody.plainInToClass(createUserBody);
+        //Su dung plainInToClass() de xoa di nhung ham thua trong req gui ve de tranh lam crack db
 
         return this.UserService.created({ ...body });
     }

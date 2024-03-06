@@ -76,8 +76,7 @@ export class AuthService {
                     roles,
                 });
 
-                const refreshToken =
-                    await this.Token.refreshToken(id);
+                const refreshToken = await this.Token.refreshToken(id);
                 const data = {
                     ...{
                         ...account.toJSON(),

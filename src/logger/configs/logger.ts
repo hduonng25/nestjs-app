@@ -32,9 +32,7 @@ function getTransports(): Transport[] {
         new winston.transports.Console(options.console),
     ];
     if (fileEnabled) {
-        const transport = new winston.transports.DailyRotateFile(
-            options.file,
-        );
+        const transport = new winston.transports.DailyRotateFile(options.file);
         transports.push(transport);
     }
     if (logstashEnabled) {
@@ -75,17 +73,13 @@ function getOptions(): LoggerOptions {
             winston.format.timestamp({
                 format: 'YYYY-MM-DD HH:mm:ss.SSS',
             }),
-            winston.format.printf(
-                (info: winston.Logform.TransformableInfo) => {
-                    let tags = '';
-                    if (info.tags && Array.isArray(info.tags)) {
-                        tags = info.tags
-                            .map((t) => `[${t}]`)
-                            .join('');
-                    }
-                    return `${info.timestamp} [${info.level}][${configs().service}]${tags}: ${info.message}`;
-                },
-            ),
+            winston.format.printf((info: winston.Logform.TransformableInfo) => {
+                let tags = '';
+                if (info.tags && Array.isArray(info.tags)) {
+                    tags = info.tags.map((t) => `[${t}]`).join('');
+                }
+                return `${info.timestamp} [${info.level}][${configs().service}]${tags}: ${info.message}`;
+            }),
         ),
         transports: getTransports(),
         exitOnError: false,

@@ -10,12 +10,9 @@ import {
 } from './shared/filter';
 
 async function main() {
-    const app = await NestFactory.create<NestExpressApplication>(
-        AppModule,
-        {
-            logger: ['debug', 'error', 'fatal', 'verbose', 'warn'],
-        },
-    );
+    const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+        logger: ['debug', 'error', 'fatal', 'verbose', 'warn'],
+    });
     app.useGlobalPipes(new ValidationPipe());
 
     const config = app.get(ConfigService);

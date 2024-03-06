@@ -6,12 +6,7 @@ import {
 } from '@nestjs/common';
 import { Observable, map } from 'rxjs';
 import { HttpsStatus } from '../../constant';
-import {
-    Result,
-    ResultError,
-    ResultSuccess,
-    error,
-} from 'src/shared/result';
+import { Result, ResultError, ResultSuccess, error } from 'src/shared/result';
 import { configs } from 'src/config';
 import errorList, { ErrorData } from 'src/shared/error';
 import { mask } from '../mask';
@@ -21,18 +16,12 @@ import { logResponse } from 'src/logger';
 //TODO: Chuyen sang dang Json truoc khi tra ve phia client o moi dau api
 @Injectable()
 export class ResultInterceptor implements NestInterceptor {
-    intercept(
-        context: ExecutionContext,
-        next: CallHandler,
-    ): Observable<void> {
+    intercept(context: ExecutionContext, next: CallHandler): Observable<void> {
         return next.handle().pipe(
             map((data: Result) => {
-                const response = context
-                    .switchToHttp()
-                    .getResponse();
+                const response = context.switchToHttp().getResponse();
                 const request = context.switchToHttp().getRequest();
-                const statusCode =
-                    data.status ?? HttpsStatus.BAD_REQUEST;
+                const statusCode = data.status ?? HttpsStatus.BAD_REQUEST;
                 const environment = configs().environment || 'pro';
                 let responseData: any;
 
@@ -40,32 +29,21 @@ export class ResultInterceptor implements NestInterceptor {
                     let resultError = data as ResultError;
                     if (
                         environment === 'pro' &&
-                        resultError.status ===
-                            HttpsStatus.METHOD_NOT_ALLOWED
+                        resultError.status === HttpsStatus.METHOD_NOT_ALLOWED
                     ) {
-                        resultError = error.urlNotFound(
-                            request.path,
-                        );
+                        resultError = error.urlNotFound(request.path);
                     }
                     let { lang } = request.headers;
                     lang = lang ?? 'vi';
-                    const errorCode =
-                        resultError.code ?? 'UNKNOWN_ERROR';
+                    const errorCode = resultError.code ?? 'UNKNOWN_ERROR';
                     const err = errorList.find(
-                        (value: ErrorData) =>
-                            value.errorCode === errorCode,
+                        (value: ErrorData) => value.errorCode === errorCode,
                     );
                     let description: string | undefined = undefined;
-                    if (
-                        resultError.description?.vi &&
-                        lang === 'vi'
-                    ) {
+                    if (resultError.description?.vi && lang === 'vi') {
                         description = resultError.description.vi;
                     }
-                    if (
-                        resultError.description?.en &&
-                        lang === 'en'
-                    ) {
+                    if (resultError.description?.en && lang === 'en') {
                         description = resultError.description.en;
                     }
                     if (!description && err && err.description) {
@@ -87,13 +65,9 @@ export class ResultInterceptor implements NestInterceptor {
                     }
                 } else {
                     const resultSuccess = data as ResultSuccess;
-                    responseData =
-                        resultSuccess.data ?? resultSuccess;
+                    responseData = resultSuccess.data ?? resultSuccess;
                 }
-                if (
-                    responseData !== null &&
-                    responseData !== undefined
-                ) {
+                if (responseData !== null && responseData !== undefined) {
                     if (typeof responseData.toJSON === 'function') {
                         responseData = responseData.toJSON();
                     }
@@ -110,9 +84,7 @@ export class ResultInterceptor implements NestInterceptor {
                 ]);
                 const correlationId = request.correlation_id;
                 const request_id = request.request_id;
-                const requestBody = JSON.parse(
-                    JSON.stringify(request.body),
-                );
+                const requestBody = JSON.parse(JSON.stringify(request.body));
                 mask(requestBody, [
                     'password',
                     'access_token',

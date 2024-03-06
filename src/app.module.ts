@@ -1,19 +1,11 @@
-import {
-    MiddlewareConsumer,
-    Module,
-    RequestMethod,
-} from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { configs } from './config';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthController, AuthModule, jwtConstants } from './auth';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserController, UserModule } from './user';
-import {
-    APP_FILTER,
-    APP_GUARD,
-    APP_INTERCEPTOR,
-} from '@nestjs/core';
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ResultInterceptor } from './shared/interceptor';
 import { checkToken } from './auth/token/check.token';
 import {

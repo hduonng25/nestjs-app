@@ -1,13 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { FilterQuery, Model, PipelineStage } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schemas';
 import { Result, error, success } from 'src/shared/result';
-import {
-    ParseSyntaxError,
-    parseQuery,
-    parseSort,
-} from 'src/shared/mquery';
+import { ParseSyntaxError, parseQuery, parseSort } from 'src/shared/mquery';
 import { CreateUserBody, FindReqQuery, UpdateUserBody } from './dto';
 import { v1 } from 'uuid';
 import * as bcrypt from 'bcrypt';
@@ -20,6 +16,8 @@ export class UserService {
     constructor(
         @InjectModel(User.name)
         private readonly UserModel: Model<User>,
+
+        @Inject('CHECK_USER')
         private readonly checkUser: checkUser,
     ) {}
 
@@ -43,9 +41,7 @@ export class UserService {
         } catch (e) {
             const err = e as unknown as ParseSyntaxError;
             const value =
-                err.message === params.sort
-                    ? params.sort
-                    : params.query;
+                err.message === params.sort ? params.sort : params.query;
             throw new HttpError({
                 status: HttpsStatus.BAD_REQUEST,
                 code: 'INVALID_DATA',
@@ -100,9 +96,7 @@ export class UserService {
             .collation({ locale: 'vi' })
             .then((res) => res[0])
             .then(async (res) => {
-                const total = !(res.meta.length > 0)
-                    ? 0
-                    : res.meta[0].total;
+                const total = !(res.meta.length > 0) ? 0 : res.meta[0].total;
 
                 let totaPage = Math.ceil(total / params.size);
                 totaPage = totaPage > 0 ? totaPage : 1;
@@ -164,10 +158,7 @@ export class UserService {
                 id: v1(),
                 name: params.name,
                 email: params.email,
-                password: await bcrypt.hash(
-                    params.password.toString(),
-                    10,
-                ),
+                password: await bcrypt.hash(params.password.toString(), 10),
                 roles: params.roles,
             });
 

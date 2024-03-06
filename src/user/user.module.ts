@@ -16,14 +16,26 @@ import { LoggerModule } from 'src/logger';
 @Global()
 @Module({
     imports: [
-        MongooseModule.forFeature([
-            { name: User.name, schema: UserSchema },
-        ]),
+        MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
         LoggerModule,
     ],
-    providers: [UserService, checkUser],
+    providers: [
+        {
+            provide: 'USER_SERVICE',
+            useClass: UserService,
+        },
+        {
+            provide: 'CHECK_USER',
+            useClass: checkUser,
+        },
+    ],
     controllers: [UserController],
-    exports: [UserService],
+    exports: [
+        {
+            provide: 'USER_SERVICE',
+            useClass: UserService,
+        },
+    ],
 })
 export class UserModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {

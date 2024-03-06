@@ -1,8 +1,4 @@
-import {
-    ExceptionFilter,
-    Catch,
-    ArgumentsHost,
-} from '@nestjs/common';
+import { ExceptionFilter, Catch, ArgumentsHost } from '@nestjs/common';
 import { configs } from 'src/config';
 import errorList, { ErrorData, HttpError } from 'src/shared/error';
 import { ResultError } from 'src/shared/result';
@@ -53,27 +49,14 @@ export class HttpErrorExceptionFilter implements ExceptionFilter {
 
         const maskedResponseData = { ...responseData }; //Muon an access_token va refresh_token thi chon responeData
 
-        mask(maskedResponseData, [
-            'password',
-            'access_token',
-            'refresh_token',
-        ]);
+        mask(maskedResponseData, ['password', 'access_token', 'refresh_token']);
         const correlationId = request.correlation_id;
         const request_id = request.request_id;
         const requestBody = JSON.parse(JSON.stringify(request.body));
 
-        mask(requestBody, [
-            'password',
-            'access_token',
-            'refresh_token',
-        ]);
+        mask(requestBody, ['password', 'access_token', 'refresh_token']);
 
-        logResponse(
-            request_id,
-            status,
-            maskedResponseData,
-            correlationId,
-        );
+        logResponse(request_id, status, maskedResponseData, correlationId);
         response.status(status).json(responseData);
     }
 }

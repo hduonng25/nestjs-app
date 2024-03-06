@@ -12,9 +12,6 @@ export interface ErrorData {
 
 export class HttpError extends HttpException {
     constructor(public error: ResultError) {
-        super(
-            { ...error } ?? { error: error },
-            HttpsStatus.BAD_REQUEST,
-        );
+        super({ ...error } ?? { error: error }, HttpsStatus.BAD_REQUEST);
     }
 }
