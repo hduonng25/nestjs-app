@@ -7,8 +7,6 @@ import {
     Post,
     Put,
     Query,
-    UsePipes,
-    ValidationPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserBody, FindReqQuery, UpdateUserBody } from './dto';
