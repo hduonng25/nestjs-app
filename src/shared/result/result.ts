@@ -18,8 +18,8 @@ export interface ResultError {
 
 export interface ErrorDetail {
     location?: string;
-    method?:string
-    url?:string
+    method?: string;
+    url?: string;
     value?: any;
     param?: string;
     message?: string;

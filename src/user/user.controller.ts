@@ -38,7 +38,7 @@ export class UserController {
         const UserReal = plainToClass(CreateUserBody, User, {
             excludeExtraneousValues: true,
         });
-        // console.log(UserReal);
+        console.log(UserReal);
 
         return this.UserService.created({ ...body });
     }

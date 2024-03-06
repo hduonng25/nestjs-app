@@ -61,7 +61,7 @@ export class HttpErrorExceptionFilter implements ExceptionFilter {
         const correlationId = request.correlation_id;
         const request_id = request.request_id;
         const requestBody = JSON.parse(JSON.stringify(request.body));
-        
+
         mask(requestBody, [
             'password',
             'access_token',

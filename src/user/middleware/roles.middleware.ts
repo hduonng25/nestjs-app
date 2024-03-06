@@ -12,7 +12,7 @@ enum Roles {
 @Injectable()
 export class RolesMiddleware implements NestMiddleware {
     constructor(private readonly logger: MyLogger) {}
-    
+
     use(req: Request, _: Response, next: NextFunction) {
         const roles = [Roles.ADMIN, Roles.USER];
         if (req.body.roles) {

@@ -1,5 +1,5 @@
-export {default as logger} from './logger'
-export * from './transport'
+export { default as logger } from './logger';
+export * from './transport';
 
 export interface LoggerConfigurations {
     service: string;

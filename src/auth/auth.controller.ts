@@ -11,5 +11,4 @@ export class AuthController {
     async login(@Body() body: AuthBodyReq) {
         return this.AuthService.login({ ...body });
     }
-    
 }
