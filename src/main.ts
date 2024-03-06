@@ -27,6 +27,7 @@ async function main() {
 
     app.setGlobalPrefix(prefix);
     app.useGlobalFilters(new NotFoundExceptionFilter());
+    app.useGlobalPipes(new ValidationPipe());
     app.useBodyParser('json', { limit: '10mb' });
 
     await app.listen(port, host, () => {

@@ -13,6 +13,8 @@ import { UserService } from './user.service';
 import { CreateUserBody, FindReqQuery, UpdateUserBody } from './dto';
 import { Result } from 'src/shared/result';
 import { Roles } from 'src/shared/guards';
+import { plainToClass } from '@nestjs/class-transformer';
+import { User } from './schemas';
 
 @Controller('user')
 export class UserController {
@@ -30,10 +32,14 @@ export class UserController {
     }
 
     @Post()
-    @UsePipes(new ValidationPipe())
     public async cerated(
         @Body() body: CreateUserBody,
     ): Promise<Result> {
+        const UserReal = plainToClass(CreateUserBody, User, {
+            excludeExtraneousValues: true,
+        });
+        // console.log(UserReal);
+
         return this.UserService.created({ ...body });
     }
 

@@ -99,7 +99,9 @@ export class ResultInterceptor implements NestInterceptor {
                     }
                 }
 
-                const maskedResponseData = { ...responseData.data }; //Muon an access_token va refresh_token thi chon responeData
+                const maskedResponseData = {
+                    responseData,
+                };
 
                 mask(maskedResponseData, [
                     'password',

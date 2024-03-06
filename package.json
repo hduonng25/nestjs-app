@@ -37,7 +37,7 @@
         "class-validator": "^0.14.1",
         "dotenv": "^16.4.5",
         "jsonwebtoken": "^9.0.2",
-        "mongodb": "^5.8.0",
+        "mongodb": "^6.4.0",
         "mongoose": "^8.2.1",
         "passport-jwt": "^4.0.1",
         "reflect-metadata": "^0.2.0",

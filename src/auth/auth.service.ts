@@ -54,6 +54,11 @@ export class AuthService {
                         account.failed_login = 0;
                     }
                 }
+            } else {
+                return error.commonError({
+                    location: 'user',
+                    message: 'user not found',
+                });
             }
 
             const checkPass = bcrypt.compareSync(

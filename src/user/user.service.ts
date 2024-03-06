@@ -69,7 +69,7 @@ export class UserService {
             id: 1,
             name: 1,
             email: 1,
-            password: 1
+            password: 1,
         };
 
         params.page = params.page <= 0 ? 1 : params.page;
@@ -172,10 +172,7 @@ export class UserService {
             });
 
             await user.save();
-            return success.created({
-                mess: 'Create user successfully',
-                user,
-            });
+            return success.created(user);
         } catch (e) {
             return error.exception(e);
         }
