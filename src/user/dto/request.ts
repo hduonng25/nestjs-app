@@ -7,7 +7,7 @@ export class FindReqQuery {
     page: number;
 
     @IsNotEmpty()
-    @Min(0)
+    // @Min(0)
     size: number;
 
     query?: string;

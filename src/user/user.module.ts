@@ -12,12 +12,18 @@ import { UserController } from './user.controller';
 import { RolesMiddleware } from './middleware/roles.middleware';
 import { checkUser } from './middleware/check';
 import { LoggerModule } from 'src/logger';
+import { StoreModule } from 'src/store/store.module';
 
 @Global()
 @Module({
     imports: [
         MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
-        LoggerModule,
+        LoggerModule.config({
+            service: 'user',
+        }),
+        StoreModule.forFeature({
+            filename: 'user.json',
+        }),
     ],
     providers: [
         {

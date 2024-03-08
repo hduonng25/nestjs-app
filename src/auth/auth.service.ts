@@ -77,6 +77,7 @@ export class AuthService {
                 });
 
                 const refreshToken = await this.Token.refreshToken(id);
+                console.log(accessToken.token);
                 const data = {
                     ...{
                         ...account.toJSON(),

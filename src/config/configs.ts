@@ -16,3 +16,9 @@ export const configs = () => ({
         public_key: process.env.PUBLIC_KEY || '',
     },
 });
+
+export function configLogger(service: string): void {
+    logger.config({
+        service: service,
+    });
+}

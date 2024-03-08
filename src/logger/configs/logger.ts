@@ -3,6 +3,7 @@ import Transport from 'winston-transport';
 import 'winston-daily-rotate-file';
 import { LogstashTransport } from './transport';
 import { configs } from 'src/config';
+import { LoggerConfigurations } from '.';
 
 function getTransports(): Transport[] {
     const fileEnabled = true;
@@ -66,7 +67,7 @@ function getTransports(): Transport[] {
     return transports;
 }
 
-function getOptions(): LoggerOptions {
+function getOptions(config?: LoggerConfigurations): LoggerOptions {
     return {
         format: winston.format.combine(
             winston.format.splat(),
@@ -78,7 +79,7 @@ function getOptions(): LoggerOptions {
                 if (info.tags && Array.isArray(info.tags)) {
                     tags = info.tags.map((t) => `[${t}]`).join('');
                 }
-                return `${info.timestamp} [${info.level}][${configs().service}]${tags}: ${info.message}`;
+                return `${info.timestamp} [${info.level}][${config.service}]${tags}: ${info.message}`;
             }),
         ),
         transports: getTransports(),
@@ -92,8 +93,11 @@ declare module 'winston' {
     }
 }
 
-function setConfiguration(this: winston.Logger): void {
-    const options = getOptions();
+function setConfiguration(
+    this: winston.Logger,
+    config: LoggerConfigurations,
+): void {
+    const options = getOptions(config);
     this.configure(options);
 }
 

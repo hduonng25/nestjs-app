@@ -14,6 +14,7 @@ import {
 } from './shared/filter';
 import { RolesGuard } from './shared/guards';
 import { LoggerModule } from './logger/logger.module';
+import { StoreModule } from './store/store.module';
 
 @Module({
     imports: [
@@ -32,9 +33,12 @@ import { LoggerModule } from './logger/logger.module';
                 uri: configs.get('mongoUri'),
             }),
         }),
+        LoggerModule.config({
+            service: 'nest-app'
+        }),
+        StoreModule.forRoot(),
         UserModule,
         AuthModule,
-        LoggerModule,
     ],
     controllers: [AuthController, UserController],
     providers: [

@@ -1,5 +1,7 @@
 import { HttpsStatus } from 'src/constant';
-import { logger } from './configs';
+import { MyLogger } from './logger.service';
+import logger from './configs/logger';
+// import logger from './configs/logger';
 
 export * from './logger.module';
 export * from './logger.service';
@@ -18,7 +20,9 @@ export const logResponse = (
         status_code,
         body,
     };
-    logger.info(JSON.stringify(data), {
+
+    const myLogger = new MyLogger()
+    myLogger.log(JSON.stringify(data), {
         tags: ['response'],
     });
 };

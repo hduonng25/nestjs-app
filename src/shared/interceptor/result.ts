@@ -7,10 +7,9 @@ import {
 import { Observable, map } from 'rxjs';
 import { HttpsStatus } from '../../constant';
 import { Result, ResultError, ResultSuccess, error } from 'src/shared/result';
-import { configs } from 'src/config';
+import { configLogger, configs } from 'src/config';
 import errorList, { ErrorData } from 'src/shared/error';
 import { mask } from '../mask';
-import { logger } from 'src/logger/configs';
 import { logResponse } from 'src/logger';
 
 //TODO: Chuyen sang dang Json truoc khi tra ve phia client o moi dau api
@@ -24,6 +23,10 @@ export class ResultInterceptor implements NestInterceptor {
                 const statusCode = data.status ?? HttpsStatus.BAD_REQUEST;
                 const environment = configs().environment || 'pro';
                 let responseData: any;
+
+                // console.log(context.getClass())
+                const controllerClass = context.getClass();
+                configLogger(controllerClass.name)
 
                 if (data.status > 300) {
                     let resultError = data as ResultError;

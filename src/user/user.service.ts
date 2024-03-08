@@ -10,6 +10,7 @@ import * as bcrypt from 'bcrypt';
 import { HttpError } from 'src/shared/error';
 import { checkUser } from './middleware/check';
 import { HttpsStatus } from 'src/constant';
+import { StoreService } from 'src/store';
 
 @Injectable()
 export class UserService {
@@ -19,6 +20,9 @@ export class UserService {
 
         @Inject('CHECK_USER')
         private readonly checkUser: checkUser,
+
+        @Inject('STORE_SERVICEuser.json')
+        private readonly storeService: StoreService,
     ) {}
 
     //TODO: internal
@@ -108,6 +112,7 @@ export class UserService {
                     data: res.data,
                 };
             });
+        this.storeService.save(user);
         return success.ok(user);
     }
 

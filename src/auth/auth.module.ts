@@ -9,6 +9,7 @@ import { User, UserSchema } from 'src/user/schemas';
 import { Token } from './token';
 import { UserModule } from 'src/user';
 import { LoggerModule } from 'src/logger';
+import { StoreModule } from 'src/store/store.module';
 
 @Global()
 @Module({
@@ -20,9 +21,14 @@ import { LoggerModule } from 'src/logger';
                 signOptions: { expiresIn: '2h', algorithm: 'RS256' },
             }),
         }),
-        LoggerModule,
+        LoggerModule.config({
+            service: 'auth',
+        }),
         UserModule,
         MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+        StoreModule.forFeature({
+            filename: 'auth.json',
+        }),
     ],
     providers: [AuthService, JwtStrategy, Token],
     controllers: [AuthController],

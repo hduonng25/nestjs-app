@@ -1,4 +1,4 @@
-export { default as logger } from './logger';
+export * from './logger';
 export * from './transport';
 
 export interface LoggerConfigurations {

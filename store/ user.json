@@ -1,0 +1,13 @@
+{
+    "page": 1,
+    "total": 1,
+    "total_page": 1,
+    "data": [
+        {
+            "id": "55c12b20-dd02-11ee-ae86-e58fe518ac53",
+            "name": "Đỗ Hồng Dương2",
+            "email": "hduong19@gmail.com",
+            "password": "$2b$10$E6q7KVu28/uKc4hmhOHQK.T1okBbjQr0o045fuLMG.YBUG9uXHipm"
+        }
+    ]
+}
